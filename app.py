@@ -7,6 +7,7 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # เปลี่ยนเป็นคีย์ลับของคุณ
 
 ALLOWED_EXTENSIONS = {'xlsx'}
+excel_cache = {}
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -47,7 +48,13 @@ def index():
     if not filepath or not os.path.exists(filepath):
         return redirect(url_for('upload'))
 
-    df = pd.read_excel(filepath, header=None, engine='openpyxl')
+    # ใช้ cache ถ้ามี
+    if filepath not in excel_cache:
+        df = pd.read_excel(filepath, header=None, engine='openpyxl')
+        excel_cache[filepath] = df
+    else:
+        df = excel_cache[filepath]
+
     a_column = df.iloc[3:, 2]
     options = [(i, str(val)) for i, val in a_column.items() if pd.notna(val)]
 
