@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Excel</title>
+    <style>
+        body { background: #f4f6fb; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .upload-container {
+            max-width: 400px; margin: 60px auto; background: #fff; border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(60,72,88,0.15); padding: 32px 24px 24px 24px; text-align: center;
+        }
+        .upload-title { color: #1976d2; font-size: 1.5rem; margin-bottom: 24px; }
+        .upload-btn {
+            background: #1976d2; color: #fff; border: none; border-radius: 6px;
+            padding: 10px 24px; font-size: 16px; cursor: pointer; margin-top: 18px;
+            transition: background 0.2s;
+        }
+        .upload-btn:hover { background: #1565c0; }
+        input[type="file"] { margin-bottom: 18px; }
+    </style>
+</head>
+<body>
+    <div class="upload-container">
+        <div class="upload-title">อัปโหลดไฟล์ Excel (.xlsx)</div>
+        <form method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".xlsx" required>
+            <br>
+            <button type="submit" class="upload-btn">อัปโหลด</button>
+        </form>
+        {% if error %}
+        <div style="color:red; margin-top:16px;">{{ error }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>
